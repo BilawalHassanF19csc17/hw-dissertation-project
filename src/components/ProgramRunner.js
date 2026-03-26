@@ -136,7 +136,7 @@ export default function ProgramRunner() {
         </div>
  
         <div className="space-y-2">
-          <div className="text-sm font-medium">Execution graph (swimlane)</div>
+          <div className="text-sm font-medium text-black">Execution graph (swimlane)</div>
           {selectedExecution ? (
             <SwimlaneGraph execution={selectedExecution} />
           ) : (
