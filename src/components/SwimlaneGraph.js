@@ -200,14 +200,14 @@ export default function SwimlaneGraph({ execution }) {
         </button>
 
         <button
-          className="px-4 py-2 rounded-lg bg-gray-200"
+          className="px-4 py-2 rounded-lg bg-gray-200 text-black"
           onClick={() => setStep((s) => Math.max(1, s - 1))}
         >
           Back
         </button>
 
         <button
-          className="px-4 py-2 rounded-lg bg-gray-200"
+          className="px-4 py-2 rounded-lg bg-gray-200 text-black"
           onClick={() => setStep(1)}
         >
           Reset
