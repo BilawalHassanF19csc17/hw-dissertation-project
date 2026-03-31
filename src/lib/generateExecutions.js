@@ -16,7 +16,7 @@ function cartesianProduct(arrays, max = 200) {
   export function generateExecutions(program, opts = {}) {
     const maxExecutions = opts.maxExecutions ?? 200;
   
-    // Add INIT lane
+
     const threads = [
       { id: "INIT", name: "Init" },
       ...program.threads.map((t) => ({ id: t.id, name: t.name })),
@@ -25,7 +25,7 @@ function cartesianProduct(arrays, max = 200) {
     const actions = [];
     const initWriteByLoc = new Map();
   
-    // Init writes: every variable starts from 0
+
     program.locations.forEach((loc, i) => {
       const id = `init_${loc}`;
       const a = {
@@ -44,10 +44,10 @@ function cartesianProduct(arrays, max = 200) {
       initWriteByLoc.set(loc, a);
     });
   
-    const writesByLoc = new Map(); // loc -> write actions
+    const writesByLoc = new Map(); 
     const reads = [];
   
-    // Build actions from program ops
+
     for (const t of program.threads) {
       let laneIndex = 0;
   
@@ -60,7 +60,7 @@ function cartesianProduct(arrays, max = 200) {
           kind: op.kind,
           loc: op.loc,
           atomic: !!op.atomic,
-          step: 2 + opIndex, // reveal order
+          step: 2 + opIndex, 
         };
   
         if (op.kind === "W") {
@@ -92,7 +92,7 @@ function cartesianProduct(arrays, max = 200) {
       });
     }
   
-    // Fixed program order edges for each thread
+
     const poEdges = [];
     for (const t of program.threads) {
       const laneActions = actions
@@ -112,17 +112,14 @@ function cartesianProduct(arrays, max = 200) {
       }
     }
   
-    // Simplified hb: hb := po (MVP to satisfy FR3)
+
     const hbEdges = poEdges.map((e) => ({
       ...e,
       id: `hb_${e.id}`,
       type: "hb",
     }));
   
-    // Candidate rf sources for reads:
-    // - Init write
-    // - Any write to same location from other threads
-    // - Same-thread: only earlier write in that thread
+
     function possibleSourcesForRead(readAction) {
       const loc = readAction.loc;
       const sources = [];
@@ -151,10 +148,10 @@ function cartesianProduct(arrays, max = 200) {
       }))
     );
   
-    // Enumerate all combinations (capped for performance)
+
     const combos = cartesianProduct(sourceOptions, maxExecutions);
   
-    // Build full executions
+
     const executions = combos.map((combo, i) => {
       const actionsClone = actions.map((a) => ({ ...a }));
       const actionMap = new Map(actionsClone.map((a) => [a.id, a]));
@@ -181,7 +178,7 @@ function cartesianProduct(arrays, max = 200) {
         });
       }
   
-      // edges include po, rf, hb
+
       const edges = [...poEdges, ...rfEdges, ...hbEdges];
   
       return {

@@ -28,13 +28,12 @@ export default function ProgramRunner() {
     try {
       setError("");
 
-      // Must-have: parse user input program
       const program = parseProgram(text, {
         maxThreads: 3,
-        maxOpsPerThread: 4, // supports your DSL example with 4 ops per thread
+        maxOpsPerThread: 4, 
       });
 
-      // Must-have: generate one or more executions
+
       const execs = generateExecutions(program, { maxExecutions });
 
       setExecutions(execs);

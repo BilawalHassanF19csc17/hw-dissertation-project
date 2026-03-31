@@ -37,7 +37,7 @@ export default function SwimlaneGraph({ execution }) {
       .style("border", "1px solid #e5e7eb")
       .style("borderRadius", "12px");
 
-    // Arrowheads
+
     const defs = svg.append("defs");
     const addMarker = (id, color) => {
       defs
@@ -78,7 +78,7 @@ export default function SwimlaneGraph({ execution }) {
       visibleEdges = visibleEdges.filter((e) => e.type !== "hb");
     }
 
-    // Lanes
+
     const lanes = g
       .selectAll(".lane")
       .data(execution.threads, (d) => d.id)
@@ -108,7 +108,7 @@ export default function SwimlaneGraph({ execution }) {
       .style("font-weight", 600)
       .text((d) => d.name);
 
-    // Edges
+
     const actionById = new Map(execution.actions.map((a) => [a.id, a]));
 
     function edgePath(e) {
@@ -125,7 +125,7 @@ export default function SwimlaneGraph({ execution }) {
         return `M${x1 + nodeR} ${y1} L${x2 - nodeR} ${y2}`;
       }
 
-      // rf curve
+
       const midX = (x1 + x2) / 2;
       return `M${x1} ${y1 + nodeR} C${midX} ${y1 + 80}, ${midX} ${y2 - 80}, ${x2} ${y2 - nodeR}`;
     }
@@ -148,7 +148,7 @@ export default function SwimlaneGraph({ execution }) {
       )
       .attr("opacity", (d) => (d.type === "hb" ? 0.9 : 0.95));
 
-    // Nodes
+
     const nodeG = g
       .selectAll(".node")
       .data(visibleActions, (d) => d.id)
@@ -157,11 +157,11 @@ export default function SwimlaneGraph({ execution }) {
       .attr("transform", (d) => `translate(${nodeX(d)}, ${nodeY(d)})`);
 
     const fillForType = (t) => {
-      if (t === "IW") return "#6b7280"; // init
-      if (t === "AW") return "#7c3aed"; // atomic write
-      if (t === "AR") return "#db2777"; // atomic read
-      if (t === "W") return "#16a34a"; // write
-      return "#f59e0b"; // read
+      if (t === "IW") return "#6b7280"; 
+      if (t === "AW") return "#7c3aed"; 
+      if (t === "AR") return "#db2777"; 
+      if (t === "W") return "#16a34a"; 
+      return "#f59e0b"; 
     };
 
     nodeG
